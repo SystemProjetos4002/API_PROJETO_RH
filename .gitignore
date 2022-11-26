@@ -156,3 +156,4 @@ env
 *.json
 !data/*.json
 *.json
+config.json
