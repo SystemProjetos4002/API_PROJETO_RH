@@ -157,3 +157,6 @@ env
 !data/*.json
 *.json
 config.json
+*.pyc
+*.json
+*.pyc
