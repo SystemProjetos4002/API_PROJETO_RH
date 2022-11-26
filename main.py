@@ -46,7 +46,7 @@ def get():
 
                         json_result[columns[i]] = list(result[0])[i]
         
-                conexao.commit()
+                conexao.commit()  # type: ignore
 
                 cursor.close()
 
