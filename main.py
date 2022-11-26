@@ -21,44 +21,49 @@ password        :str= cripto.decriptar(bytes(config['connection_setings']['passw
 database        :str= cripto.decriptar(bytes(config['connection_setings']['database'], 'utf-8')).decode("utf-8")
 
          
-app = Flask(__name__)
+app : Flask = Flask(__name__)
 
 @app.route('/get/getlogin',methods=['GET']) # type: ignore
 
 def get():
-        conexao  :CMySQLConnection | MySQLConnection | None = c.conecta(host,user,password,database)
 
         try:
+                conexao  :CMySQLConnection | MySQLConnection | None = c.conecta(host,user,password,database)
+
                 cursor : CursorBase | CMySQLConnection  = conexao.cursor(buffered = True)  # type: ignore
 
-                sql = "SELECT * FROM t_area;"
+                sql = c.sqlComands('getlogin')
 
                 cursor.execute(sql)    # type: ignore
+            
+                result : list = [i for i in cursor.fetchall()]  # type: ignore
 
-                result = [i for i in cursor.fetchall()]  # type: ignore
+                columns : list = [i[0] for i in cursor.description]  # type: ignore
+              
+                json_result : dict = {}
 
-                json_result = {valor[0] : valor[1] for valor in result}
+                for i in range(0,len(result[0])-1):
+
+                        json_result[columns[i]] = list(result[0])[i]
+        
+                conexao.commit()
 
                 cursor.close()
 
-                conexao.commit()
-
                 conexao.close()
-
+              
                 return json_result
 
         except Error :
 
                 pass 
 
-        
 if __name__ == '__main__':
 
         try:
-                app.run( host="192.168.1.6", port=5000,debug=True)
+                app.run( host="192.168.0.150", port=5000,debug=True)
 
         except ValueError as err:
 
                 print(f"{err}")
-
 

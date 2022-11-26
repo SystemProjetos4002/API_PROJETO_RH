@@ -160,3 +160,5 @@ config.json
 *.pyc
 *.json
 *.pyc
+*.pyc
+*.pyc
