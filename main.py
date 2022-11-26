@@ -55,7 +55,7 @@ def get():
 if __name__ == '__main__':
 
         try:
-                app.run( host="192.168.0.150", port=5000,debug=True)
+                app.run( host="192.168.1.6", port=5000,debug=True)
 
         except ValueError as err:
 

@@ -11,5 +11,5 @@ def decriptar(e):
     decript = fernet.decrypt(e)
     return decript
 
-encriptado = encriptar(b'@g0r@vai4002')
+encriptado = encriptar(b'qwe123asd')
 print(encriptado)
