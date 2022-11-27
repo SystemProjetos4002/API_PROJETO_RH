@@ -1,8 +1,8 @@
 from mysql.connector import CMySQLConnection,MySQLConnection
 from mysql.connector.cursor import CursorBase
-from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from mysql.connector import Error
+from flask import Flask, request
 from waitress import serve
 from json import dumps
 import conection as c
@@ -10,7 +10,7 @@ import cripto
 import json
 
 with open('config.json', 'r') as conf_json:
-        
+
      config : dict[str,dict[str,str]] = json.loads(conf_json.read())
 
 host            :str= cripto.decriptar(bytes(config['connection_setings']['host'], 'utf-8')).decode("utf-8")
@@ -24,8 +24,9 @@ database        :str= cripto.decriptar(bytes(config['connection_setings']['datab
          
 app : Flask = Flask(__name__)
 
+
 @app.route('/get/getlogin',methods=['GET']) # type: ignore
-def get():
+def tryLogin() -> str | None:
 
         try:
                 
@@ -50,6 +51,7 @@ def get():
                 columns : list = [i[0] for i in cursor.description]  # type: ignore
               
                 json_result : dict = {}
+
                 if result:
 
                         for i in range(0,len(result[0])):
@@ -70,6 +72,7 @@ def get():
 
                         if senha == cripto.decriptar(senhabanco).decode('utf8'):  # type: ignore
                                 return 'ACEITO'
+
                         else:
                                 return 'SENHA INCORRETA'
                 else: 
@@ -78,6 +81,8 @@ def get():
         except Error :
                 
                 pass 
+
+
 
 if __name__ == '__main__':
 
