@@ -33,8 +33,6 @@ def tryLogin() -> str | None:
                 login = request.args.get('login')  # type: ignore
 
                 senha =  request.args.get('senha')
-
-                print(login)
                 
                 conexao  :CMySQLConnection | MySQLConnection | None = c.conecta(host,user,password,database)
 
@@ -56,7 +54,7 @@ def tryLogin() -> str | None:
 
                         for i in range(0,len(result[0])):
 
-                                print(f'INSERI MAIS UM {i}')
+                             
 
                                 json_result[columns[i]] = list(result[0])[i]
                         
@@ -68,7 +66,7 @@ def tryLogin() -> str | None:
 
                         conexao.close()
 
-                        print(senha)
+                       
 
                         if senha == cripto.decriptar(senhabanco).decode('utf8'):  # type: ignore
                                 return 'ACEITO'
