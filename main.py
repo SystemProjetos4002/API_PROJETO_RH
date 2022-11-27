@@ -10,6 +10,7 @@ import cripto
 import json
 
 with open('config.json', 'r') as conf_json:
+        
      config : dict[str,dict[str,str]] = json.loads(conf_json.read())
 
 host            :str= cripto.decriptar(bytes(config['connection_setings']['host'], 'utf-8')).decode("utf-8")
@@ -24,38 +25,58 @@ database        :str= cripto.decriptar(bytes(config['connection_setings']['datab
 app : Flask = Flask(__name__)
 
 @app.route('/get/getlogin',methods=['GET']) # type: ignore
-
 def get():
 
         try:
+                
+                login = request.args.get('login')  # type: ignore
+
+                senha =  request.args.get('senha')
+
+                print(login)
+                
                 conexao  :CMySQLConnection | MySQLConnection | None = c.conecta(host,user,password,database)
 
                 cursor : CursorBase | CMySQLConnection  = conexao.cursor(buffered = True)  # type: ignore
+                
+                #senha = cripto.encriptar(bytes(senha.encode('utf-8')))  # type: ignore
 
-                sql = c.sqlComands('getlogin')
+                sql = c.sqlComands('getlogin',login)  # type: ignore
 
-                cursor.execute(sql)    # type: ignore
-            
-                result : list = [i for i in cursor.fetchall()]  # type: ignore
+                cursor.execute(sql) # type: ignore
 
+                result : list = [i for i in cursor.fetchall()]  # type: ignore 
+               
                 columns : list = [i[0] for i in cursor.description]  # type: ignore
               
                 json_result : dict = {}
+                if result:
 
-                for i in range(0,len(result[0])-1):
+                        for i in range(0,len(result[0])):
 
-                        json_result[columns[i]] = list(result[0])[i]
-        
-                conexao.commit()  # type: ignore
+                                print(f'INSERI MAIS UM {i}')
 
-                cursor.close()
+                                json_result[columns[i]] = list(result[0])[i]
+                        
+                        senhabanco = json_result['senha']
+                        
+                        conexao.commit()  # type: ignore
 
-                conexao.close()
-              
-                return json_result
+                        cursor.close()
+
+                        conexao.close()
+
+                        print(senha)
+
+                        if senha == cripto.decriptar(senhabanco).decode('utf8'):  # type: ignore
+                                return 'ACEITO'
+                        else:
+                                return 'SENHA INCORRETA'
+                else: 
+                        return 'LOGIN INEXISTENTE'
 
         except Error :
-
+                
                 pass 
 
 if __name__ == '__main__':

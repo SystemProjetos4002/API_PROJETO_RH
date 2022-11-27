@@ -1,14 +1,17 @@
-import mysql.connector
-from mysql.connector import errorcode
 from mysql.connector import CMySQLConnection,MySQLConnection
+from mysql.connector import errorcode
+import mysql.connector
+
+
 
 def conecta(host : str,user : str,password : str,database : str) -> CMySQLConnection | MySQLConnection:
     '''Conecta no banco Mysql'''
     return mysql.connector.connect(host=host, user=user, password=password, database=database)
 
-def sqlComands(arg : str ) -> str | None:
+def sqlComands(arg,login: str | None ) -> str | None:
     if arg == 'getlogin':
-         return 'SELECT id,	nome,	login,	senha,	fk_cargo,	fk_equipe,	fk_privilegios FROM t_login;'
+        return f'select login,senha from t_login where login = "{login}"'
+
     else:
         pass
    
