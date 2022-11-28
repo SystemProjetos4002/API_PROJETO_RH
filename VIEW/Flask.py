@@ -15,7 +15,7 @@ def tryLoginFlask(host,user,password,database):
 
     @app.route('/get/getlogin',methods=['GET']) # type: ignore
     def tryLogin() -> str | None:
-
+    
             try:
                     login = request.args.get('login')  # type: ignore
 
@@ -64,5 +64,11 @@ def tryLoginFlask(host,user,password,database):
             except Error :
                     
                     pass
+
+    @app.route('/get/getlogin',methods=['GET']) # type: ignore
+    def getpedidoson() -> str | None:
+        pass
+
     return app            
 
+    
