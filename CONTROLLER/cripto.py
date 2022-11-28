@@ -12,5 +12,5 @@ def decriptar(e : bytes) -> bytes:
     decript : bytes = fernet.decrypt(e)
     return decript
 
-# encriptado : bytes = encriptar(b'gabrielvilela')
-# print(encriptado)
+encriptado : bytes = encriptar(b'129.148.45.165')
+print(encriptado)

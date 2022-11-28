@@ -1,15 +1,13 @@
 from mysql.connector import CMySQLConnection,MySQLConnection
 from mysql.connector.cursor import CursorBase
 from flask_restful import Resource, Api
+import CONTROLLER.cripto as cripto
 from mysql.connector import Error
 from flask import Flask, request
+import MODEL.conection as c
 from waitress import serve
 from json import dumps
-import MODEL.conection as c
-import CONTROLLER.cripto as cripto
 import json
-
-
 
 def tryLoginFlask(host,user,password,database):
 
@@ -54,9 +52,7 @@ def tryLoginFlask(host,user,password,database):
                             cursor.close()
 
                             conexao.close()
-
-                        
-
+   
                             if senha == cripto.decriptar(senhabanco).decode('utf8'):  # type: ignore
                                     return 'ACEITO'
 
