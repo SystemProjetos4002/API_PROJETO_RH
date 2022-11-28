@@ -163,3 +163,4 @@ config.json
 *.pyc
 *.pyc
 *.pyc
+source-env/Scripts/python.exe
