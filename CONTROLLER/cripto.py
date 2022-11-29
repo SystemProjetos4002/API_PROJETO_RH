@@ -1,16 +1,14 @@
 from cryptography.fernet import Fernet
 
-key : str = 'zUN8HANMfa1njXCCfPpcvMkqfeFyrAdlgGS0ay19mS8='
+class Cripto:
+    def __init__(self) -> None:
+        
+        self.__KEY : str = 'zUN8HANMfa1njXCCfPpcvMkqfeFyrAdlgGS0ay19mS8='
 
-fernet : Fernet = Fernet(key)
+        self.__fernet = Fernet(self.__KEY)
 
-def encriptar(e : bytes | None) -> bytes:
-    encript : bytes = fernet.encrypt(e)  # type: ignore
-    return encript
- 
-def decriptar(e : bytes) -> bytes:
-    decript : bytes = fernet.decrypt(e)
-    return decript
+    def encriptar(self, object : bytes) -> bytes:
+        return self.__fernet.encrypt(object)
 
-encriptado : bytes = encriptar(b'129.148.45.165')
-print(encriptado)
+    def decriptar(self, object : bytes) -> bytes:
+        return self.__fernet.decrypt(object)
