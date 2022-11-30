@@ -1,8 +1,8 @@
 from json import load
 
-class Config:
+class LocalConfig:
     def __init__(self) -> None:
-        self.__json : dict = load(open('./config.json', mode='r', encoding='utf-8'))
+        self.__json : dict = load(open('./local-config.json', mode='r', encoding='utf-8'))
 
     def iplocal(self) -> str:
         return self.__json['iplocal']
