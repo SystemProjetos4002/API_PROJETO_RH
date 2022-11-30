@@ -1,17 +1,24 @@
-from json import dumps
-import MODEL.conection as c
-import VIEW.Flask as Flask
+from CONTROLLER.local_config import LocalConfig
+from VIEW.api_routes import return_app
+
+class Main:
+    def __init__(self) -> None:
+        
+        try:
+            
+            self.config = LocalConfig()
+
+            self.app = return_app()
+
+            self.app.run(
+                host=self.config.iplocal(),
+                port=self.config.port(),
+                debug=self.config.debug()
+            )
+        
+        except Exception as ERROR:
+            print(ERROR)
+
 
 if __name__ == '__main__':
-
-        try:
-                configsql = c.configSql()
-
-                app = Flask.tryLoginFlask(configsql["host"],configsql["user"],configsql["password"],configsql["database"])  # type: ignore
-                
-                app.run( host="192.168.0.150", port=5000,debug=True)
-
-        except ValueError as err:
-
-                print(f"{err}")
-
+    Main()
