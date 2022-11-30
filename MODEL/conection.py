@@ -9,8 +9,14 @@ def conecta(host : str,user : str,password : str,database : str) -> CMySQLConnec
     return mysql.connector.connect(host=host, user=user, password=password, database=database)
 
 def sqlComands(arg,login: str | None ) -> str | None:
+    print(f'O ARG É {arg}')
     if arg == 'getlogin':
+
         return f'select login,senha from t_login where login = "{login}"'
+   
+    if arg == 'geton':
+        print('ta igual em')
+        return 's_verifica_pedidos_on'
 
     else:
         pass

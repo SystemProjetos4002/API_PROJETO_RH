@@ -25,8 +25,6 @@ def tryLoginFlask(host,user,password,database):
 
                     cursor : CursorBase | CMySQLConnection  = conexao.cursor(buffered = True)  # type: ignore
                     
-                    #senha = cripto.encriptar(bytes(senha.encode('utf-8')))  # type: ignore
-
                     sql = c.sqlComands('getlogin',login)  # type: ignore
 
                     cursor.execute(sql) # type: ignore
@@ -40,8 +38,6 @@ def tryLoginFlask(host,user,password,database):
                     if result:
 
                             for i in range(0,len(result[0])):
-
-                                
 
                                     json_result[columns[i]] = list(result[0])[i]
                             
@@ -65,8 +61,55 @@ def tryLoginFlask(host,user,password,database):
                     
                     pass
 
-    @app.route('/get/getlogin',methods=['GET']) # type: ignore
-    def getpedidoson() -> str | None:
+    @app.route('/get/geton',methods=['GET']) # type: ignore
+    def getpedidoson() -> dict | None:
+        
+        trylogin = tryLogin()
+
+        if trylogin == 'ACEITO':
+
+                try:
+
+                    conexao  :CMySQLConnection | MySQLConnection | None = c.conecta(host,user,password,database)
+                    
+                    cursor : CursorBase | CMySQLConnection  = conexao.cursor(buffered = True)  # type: ignore
+                   
+                    sql = c.sqlComands('geton','')  # type: ignore
+               
+                    cursor.callproc(sql) # type: ignore
+                
+                    for r in cursor.stored_results():  # type: ignore
+
+                        columns = list(r.column_names)
+
+                        result = r.fetchall()
+
+                    json_result : dict = {}
+
+                    if result: # type: ignore
+
+                            for i in range(0,len(result[0])-1):
+                              
+                                    json_result[columns[i]] = list(result[0])[i] # type: ignore
+                                   
+                            conexao.commit()  # type: ignore
+
+                            cursor.close()
+
+                            conexao.close()
+
+                            return json_result
+                    else:
+
+                        result = {}
+
+                        return result
+                except:
+                        result = {}
+                        return result
+        else:
+                pass
+
         pass
 
     return app            
