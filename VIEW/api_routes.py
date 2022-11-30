@@ -61,3 +61,44 @@ def login() -> str:
     else:
         return 'Login incorreto'
                 
+
+@__app.route('/get/geton', methods=['GET'])  # type: ignore
+def getOrder() -> dict | None:
+
+    if login() == 'Aceito':
+
+        conection : CMySQLConnection | MySQLConnection = __sqlconn.conecta()
+
+        cursor = conection.cursor(buffered=True)
+
+        command = __sqlcommands.getOrder()
+
+        cursor.callproc(command)
+
+        for results in cursor.stored_results():   # type: ignore
+
+            columns = list(results.column_names)
+
+            result = results.fetchall()
+        
+        json_result : dict = {}
+
+        if result: # type: ignore
+
+            for index in range(len(result[0]) -1):
+
+                json_result[columns[index]] = list(result[0])[index] #type: ignore
+
+            conection.commit()
+
+            cursor.close()
+
+            conection.close()
+
+            return json_result
+        
+        else:
+            return {}
+        
+    else:
+        pass
