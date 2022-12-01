@@ -1,5 +1,6 @@
 from CONTROLLER.local_config import LocalConfig
 from VIEW.api_routes import return_app
+from waitress import serve
 
 class Main:
     def __init__(self) -> None:
@@ -8,13 +9,12 @@ class Main:
             
             self.config = LocalConfig()
 
-            self.app = return_app()
-
-            self.app.run(
+            serve(
+                return_app(),
                 host=self.config.iplocal(),
-                port=self.config.port(),
-                debug=self.config.debug()
+                port=self.config.port()
             )
+
         
         except Exception as ERROR:
             print(ERROR)

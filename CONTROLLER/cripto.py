@@ -12,4 +12,3 @@ class Cripto:
 
     def decriptar(self, object : bytes) -> bytes:
         return self.__fernet.decrypt(object)
-    

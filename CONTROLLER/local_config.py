@@ -10,5 +10,3 @@ class LocalConfig:
     def port(self) -> int:
         return self.__json['port']
     
-    def debug(self) -> bool:
-        return self.__json['debug']
