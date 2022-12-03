@@ -1,6 +1,7 @@
-from CONTROLLER.local_config import LocalConfig
-from VIEW.api_routes import return_app
-from waitress import serve
+from CONTROLLER.local_config import LocalConfig as LocalConfig
+from VIEW.api_routes import return_app as return_app
+from waitress import serve as serve
+import VIEW.cleancache as cleancache
 
 class Main:# Criando classe Main, classe inicial.
     
@@ -23,4 +24,6 @@ class Main:# Criando classe Main, classe inicial.
 
 
 if __name__ == '__main__':
-    Main()
+    cleancache.cleancache() #apagas arquivos de cache
+    Main() #Instancia objeto principal
+    
